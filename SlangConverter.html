@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width; initial-scale=1.0">
+	<title>Slang Converter</title>
+	<style type="text/css">
+		*{
+			outline: none;
+			box-sizing: border-box;
+			font-family: sans-serif;
+		}
+		html, body{
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			height: 100%;
+			background: rgb(51, 51, 0);
+		}
+		h2{
+			color: #fff;
+			text-align: center;
+			font-size: 2em;
+			text-shadow: 2px 2px #ddd;
+		}
+		.container{
+			margin: 0;
+			padding: 10px;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+			width: 100%;
+		}
+		form{
+			align-content: center;
+			margin: 20px;
+			padding: 20px;
+			
+		}
+		.slang_in{
+			width: inherit;
+			margin: 5px;
+			padding: 5px;
+			box-sizing: border-box;
+		}
+		.addslng{
+			margin: 5px;
+			padding: 5px;
+		}
+		input[type=text]{
+			width: 100%;
+			height: auto;
+			padding: 60px 100px;
+			margin: 8px 0;
+			background: #ffffb3;
+			color: #333300;
+			text-align: center;
+			font-size: 1.0em;
+			border: 1px solid #1a1a00;
+			border-radius: 5px;
+			box-sizing: border-box;
+		}
+		[class^="addS"]{
+			padding: 15px 20px !important;
+		}
+		textarea{
+			width: 100%;
+			height: auto;
+			height: 150px;
+			padding: 12px 20px;
+			background: #ffffb3;
+			color: #333300;
+			text-align: center;
+			border: 1px solid #1a1a00;
+			margin-bottom: 5px;
+			border-radius: 5px;
+			box-sizing: border-box;
+			resize: none;
+		}
+
+		input[type=button]{
+			width: 100px;
+			height: 40px;
+			border: none;
+			border-radius: 5px;
+			color: #333300;
+			font-weight: bold;
+			font-style:initial;
+			cursor: pointer;
+			box-sizing: border-box;
+		}
+		input[type=button]:hover{
+			color: #808000;
+			background: #1a1a00;
+		}
+		em{
+			color: #332900;
+			padding: 4px;
+			border: 1px solid #1a1a00;
+			border-radius: 3px;
+			font-family: monospace;
+			font-size: 18px;
+			font-weight: bold;
+			font-style: initial;
+			text-align: center;
+			background: #997a00;
+			-webkit-animation-name:trademark; /*chrome, opera*/
+			-webkit-animation-duration:10s; /*chrome, opera*/
+			animation-name: trademark;
+			animation-duration: 10s;
+		}
+		footer{
+			text-align: center;
+		}
+
+		/*animation*/
+		/*chrome, opera*/
+		@-webkit-keyframes trademark{
+			0% {background-color: #332900;}
+			25% {background-color: #806600;}
+			50% {background-color: #ffcc00;}
+			100% {background-color: #fff0b3;}
+		}
+			/*Standard Syntax*/
+		@keyframes trademark{
+			0% {background-color: #332900;}
+			25% {background-color: #806600;}
+			50% {background-color: #ffcc00;}
+			100% {background-color: #fff0b3;}
+		}
+
+		/*mobile responsivenes*/
+		@media only screen and (min-width: 466px) and (max-width: 668px){
+				.container{
+				width: 100%;
+				margin: 0px;
+				padding: 10px;
+			}
+			input[type=text]{
+				width: 100%;
+				padding: 60px 100px;
+			}
+		}
+
+		/*Styling the Alert Box*/
+	#modalContainer {
+    background-color:rgba(0, 0, 0, 0.3);
+    position:absolute;
+    width:100%;
+    height:100%;
+    top:0px;
+    left:0px;
+    z-index:10000;
+}
+
+#alertBox {
+    position:relative;
+    width:500px;
+    min-height:100px;
+    margin-top:50px;
+    border:1px solid #666;
+    background-color:#fff;
+    background-repeat:no-repeat;
+    background-position:20px 30px;
+}
+
+#modalContainer > #alertBox {
+    position:fixed;
+}
+
+#alertBox h1 {
+    margin:0;
+    font:bold 0.9em verdana,arial;
+    background-color:#333300;
+    color:#FFF;
+    border-bottom:1px solid #000;
+    padding:2px 0 2px 5px;
+}
+
+#alertBox p {
+    font:0.7em verdana,arial;
+    height:50px;
+    padding-left:5px;
+    margin-left:55px;
+}
+
+#alertBox #closeBtn {
+    display:block;
+    position:relative;
+    margin:5px auto;
+    padding:7px;
+    border:0 none;
+    width:70px;
+    font:0.7em verdana,arial;
+    text-transform:uppercase;
+    text-align:center;
+    color:#FFF;
+    background-color:#333300;
+    border-radius: 3px;
+    text-decoration:none;
+}
+</style>
+</head>
+<body>
+	<div class="container">
+		<h2>Slang Converter</h2>
+		<form action="" id="form" method="post">
+			<div class="slang_in">
+				<textarea id="slang"  placeholder="Input Slang"></textarea>
+				<input type="button" name="convert" id="convert" value="Convert">
+			</div>
+			<div class="addslng">
+				<input type="text" name="addSlang" class="addSlang" id="addSlang" placeholder="Input Description"><br>
+				<textarea id="slang_desc"></textarea>
+				<input type="button" name="add" id="add" value="Add">
+			</div>
+		</form>
+		<footer><em>Dexterous Godson</em></footer>
+	</div>
+
+	<script type="text/javascript">
+	function message() {
+		// document.write(this.innerWidth);
+		// document.write(this.innerHeight);
+		}
+	function clearTextBox() {
+		return document.getElementById('slang').value = "";
+	}
+	var clrTxt = document.getElementById('slang');
+	clrTxt.addEventListener('click', clearTextBox, false);
+
+	// Validating input
+	function validate(addSlng, slang, slang_desc) {
+		//  initialize the variables
+		addSlng = document.getElementById('addSlang').value;
+		slang = document.getElementById('slang').value;
+		slang_desc = document.getElementById('slang_desc').value;
+
+		if (slang == null || slang == "") {
+			document.getElementById('slang').style.border = "2px solid red";
+			 return false;
+		}
+
+		if (addSlng == null || addSlng == "") {
+			alert("please input slang");
+			document.getElementById('addSlang').style.border = "2px solid red";
+			return false;
+			
+		}
+
+		if (slang_desc == null || slang_desc == "") {
+			alert("please input description");
+			document.getElementById('slang_desc').style.border = "2px solid red";
+			return false;
+			
+		}
+	}
+
+	// Object to store slangs(key) and description(value)
+	var objSlangs = {
+			"lol" : "laugh out loud",
+			"lolz" : "laugh out louds",
+			"smh" : "shaking my head",
+			"8" : "ate",
+			"lmao" : "laugh my ass out",
+			"oyo" : "on your own",
+			"bae" : "before anyone else",
+			"dm" : "direct message",
+			"pc" : "private chat",
+			"dp" : "display picture",
+			"gr8" : "great",
+			"d1ilsm" : "the one i love so much",
+			"luv" : "love",
+			"aka" : "also known as",
+			"b4" : "before",
+			"bff" : "best friends forever",
+			"btw" : "by the way",
+			"brb" : "be right back",
+			"d8" : "date",
+			"fb" : "facebook",
+			"gomb" : "get off my back",
+			"ftw" : "for the win",
+			"hbd" : "happy birthday",
+			"imo" : "in my opinion",
+			"l8r" : "later",
+			"lmk" : "let me know",
+			"lwkmd" : "laugh wan kill me die",
+			"wcw" : "woman crush wednesday",
+			"mcm" : "man crush monday",
+			"nm" : "not much",
+			"yl" : "young lady",
+			"zzz" : "sleeping",
+			"ysk" : "you should know",
+			"xoxo" : "hugs and kisses",
+			"wru" : "where are you",
+			"txt" : "text",
+			"wdum" : "what do you mean",
+			"yolo" : "you only live once",
+			"wbu" : "what about you",
+			"tnx" : "thanks",
+			"tbt" : "throwback time",
+			"jk" : "just kidding",
+			"irl" : "in real life",
+			"idc" : "i don't care",
+			"afaik" : "as far as i know",
+			"ama" : "ask me anything",
+			"asn" : "any second now",
+			"dp" : "display picture",
+			"f2f" : "face to face",
+			"gn" : "goodnight",
+			"gtg" : "got to go",
+			"hml" : "happy married life",
+			"hmu" : "hit me up",
+			"icymi" : "in case you missed it",
+			"bda" : "best days ahead",
+			"b4n" : "before now",
+			"hun" : "honey",
+			"bf" : "boy friend",
+			"gf" : "girl friend",
+			"asap" : "as soon as possible",
+			"goat" : "greatest of all time",
+			"wtf" : "what the fuck"
+		};
+
+	// searching for slang and getting back description
+	function searchSlangs() {
+		// variable for storing user input
+		var keyInput = document.getElementById('slang').value;
+		
+		// check if input is empty
+		if (keyInput == "") {
+			validate(keyInput);
+		} 
+		else {
+			search(objSlangs, keyInput);
+		}
+	}
+	var btn_srchSlng = document.getElementById('convert');
+	btn_srchSlng.addEventListener('click', searchSlangs, false);
+
+
+	// linear search for comparing user input
+	function search(slangs, input) {
+		// for each slang store in the object, match with user input
+		for(var value in slangs) { 
+			// if user input matches the slang(key) store in the object
+			// replace slang(key) with description(value) in the input box
+			// return false
+			if ((value.toLowerCase() === input.toLowerCase()) || 
+				(value.toUpperCase() === input.toUpperCase())) {
+				document.getElementById('slang').value = slangs[value];
+				document.getElementById('slang').style.border = "";
+				return false;	
+			}
+			else{
+				document.getElementById('slang').style.border = "2px solid red";
+			} 
+		}
+	}
+
+	// function for modifying the alert box function of javascript
+	function createCustomAlert(txt) {
+    d = document;
+
+    if(d.getElementById("modalContainer")) return;
+
+    // creating a new <div> tag in the DOM 
+    mObj = d.getElementsByTagName("body")[0].appendChild(d.createElement("div"));
+    mObj.id = "modalContainer"; // creating an id for the div tag
+    mObj.style.height = d.documentElement.scrollHeight + "px"; // height of the <div> tag
+
+    alertObj = mObj.appendChild(d.createElement("div"));
+    alertObj.id = "alertBox";
+    if(d.all && !window.opera) alertObj.style.top = document.documentElement.scrollTop + "px";
+    alertObj.style.left = (d.documentElement.scrollWidth - alertObj.offsetWidth)/2 + "px";
+    alertObj.style.visiblity="visible";
+
+    h1 = alertObj.appendChild(d.createElement("h1"));
+    h1.appendChild(d.createTextNode(ALERT_TITLE));
+
+    msg = alertObj.appendChild(d.createElement("p"));
+    msg.innerHTML = txt;
+
+    btn = alertObj.appendChild(d.createElement("a"));
+    btn.id = "closeBtn";
+    btn.appendChild(d.createTextNode(ALERT_BUTTON_TEXT));
+    btn.href = "#";
+    btn.focus();
+    btn.onclick = function() { removeCustomAlert();return false; }
+
+    alertObj.style.display = "block";
+
+}
+
+function removeCustomAlert() {
+    document.getElementsByTagName("body")[0].removeChild(document.getElementById("modalContainer"));
+}
+</script>
+</body>
+</html>
