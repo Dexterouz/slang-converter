@@ -59,7 +59,7 @@
 			border-radius: 5px;
 			box-sizing: border-box;
 		}
-		[class^="addS"]{
+		[class^="inpu"]{
 			padding: 15px 20px !important;
 		}
 		textarea{
@@ -209,9 +209,9 @@
 				<input type="button" name="convert" id="convert" value="Convert">
 			</div>
 			<div class="addslng">
-				<input type="text" name="addSlang" class="addSlang" id="addSlang" placeholder="Input Description"><br>
+				<input type="text" name="input-desc" class="input-desc" id="input-desc" placeholder="Input description"><br>
 				<textarea id="slang_desc"></textarea>
-				<input type="button" name="add" id="add" value="Add">
+				<input type="button" name="show" id="show" value="Show">
 			</div>
 		</form>
 		<footer><em>Dexterous Godson</em></footer>
@@ -223,7 +223,8 @@
 		// document.write(this.innerHeight);
 		}
 	function clearTextBox() {
-		return document.getElementById('slang').value = "";
+		document.getElementById('slang').value = "";
+		document.getElementById('input-desc').value = "";
 	}
 	var clrTxt = document.getElementById('slang');
 	clrTxt.addEventListener('click', clearTextBox, false);
@@ -231,7 +232,7 @@
 	// Validating input
 	function validate(addSlng, slang, slang_desc) {
 		//  initialize the variables
-		addSlng = document.getElementById('addSlang').value;
+		addSlng = document.getElementById('input-desc').value;
 		slang = document.getElementById('slang').value;
 		slang_desc = document.getElementById('slang_desc').value;
 
@@ -241,14 +242,12 @@
 		}
 
 		if (addSlng == null || addSlng == "") {
-			alert("please input slang");
-			document.getElementById('addSlang').style.border = "2px solid red";
+			document.getElementById('input-desc').style.border = "2px solid red";
 			return false;
 			
 		}
 
 		if (slang_desc == null || slang_desc == "") {
-			alert("please input description");
 			document.getElementById('slang_desc').style.border = "2px solid red";
 			return false;
 			
@@ -324,18 +323,36 @@
 	// searching for slang and getting back description
 	function searchSlangs() {
 		// variable for storing user input
-		var keyInput = document.getElementById('slang').value;
+		var keyInputSlang = document.getElementById('slang').value;
 		
 		// check if input is empty
-		if (keyInput == "") {
-			validate(keyInput);
+		if (keyInputSlang == "") {
+			validate(keyInputSlang);
 		} 
 		else {
-			search(objSlangs, keyInput);
+			search(objSlangs, keyInputSlang);
 		}
 	}
+
+	// searching for description and getting back the slang
+	function searchDescription(){
+		// variable for storing user input
+		var keyInputDesc = document.getElementById('input-desc').value;
+
+		//  check if user input is empty
+		if(keyInputDesc == ""){
+			validate(keyInputDesc);
+		}
+		else{
+			retrieveSlang(objSlangs,keyInputDesc);
+		}
+	}
+
 	var btn_srchSlng = document.getElementById('convert');
 	btn_srchSlng.addEventListener('click', searchSlangs, false);
+
+	var btn_srchDesc = document.getElementById('show');
+	btn_srchDesc.retrieveSlang('click', searchDescription, false);
 
 
 	// linear search for comparing user input
@@ -346,13 +363,31 @@
 			// replace slang(key) with description(value) in the input box
 			// return false
 			if ((value.toLowerCase() === input.toLowerCase()) || 
-				(value.toUpperCase() === input.toUpperCase())) {
-				document.getElementById('slang').value = slangs[value];
-				document.getElementById('slang').style.border = "";
-				return false;	
+					(value.toUpperCase() === input.toUpperCase())) {
+						document.getElementById('slang').value = slangs[value];
+						document.getElementById('slang').style.border = "";
+					return false;	
 			}
 			else{
 				document.getElementById('slang').style.border = "2px solid red";
+			} 
+		}
+	}
+
+	function retrieveSlang(slangs, input) {
+		// for each slang store in the object, match with user input
+		for(var valued in slangs) { 
+			// if user input matches the slang(key) store in the object
+			// replace slang(key) with description(value) in the input box
+			// return false
+			if ((slangs[valued].toLowerCase() === input.toLowerCase()) || 
+					(slangs[valued].toUpperCase() === input.toUpperCase())) {
+						document.getElementById('slang_desc').value = valued;
+						document.getElementById('input-desc').style.border = "";
+					return false;	
+			}
+			else{
+				document.getElementById('input-desc').style.border = "2px solid red";
 			} 
 		}
 	}
