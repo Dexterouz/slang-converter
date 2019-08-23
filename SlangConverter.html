@@ -226,8 +226,13 @@
 		document.getElementById('slang').value = "";
 		document.getElementById('input-desc').value = "";
 	}
+	// clear input slang box
 	var clrTxt = document.getElementById('slang');
 	clrTxt.addEventListener('click', clearTextBox, false);
+
+	// clear input description box
+	var clrDes = document.getElementById('input-desc');
+	clrDes.addEventListener('click', clearTextBox, false);
 
 	// Validating input
 	function validate(addSlng, slang, slang_desc) {
@@ -351,8 +356,8 @@
 	var btn_srchSlng = document.getElementById('convert');
 	btn_srchSlng.addEventListener('click', searchSlangs, false);
 
-	var btn_srchDesc = document.getElementById('show');
-	btn_srchDesc.retrieveSlang('click', searchDescription, false);
+	//var btn_srchDesc = document.getElementById('show');
+	//btn_srchDesc.addEventListener('click', searchDescription, false);
 
 
 	// linear search for comparing user input
@@ -363,7 +368,7 @@
 			// replace slang(key) with description(value) in the input box
 			// return false
 			if ((value.toLowerCase() === input.toLowerCase()) || 
-					(value.toUpperCase() === input.toUpperCase())) {
+				(value.toUpperCase() === input.toUpperCase())) {
 						document.getElementById('slang').value = slangs[value];
 						document.getElementById('slang').style.border = "";
 					return false;	
